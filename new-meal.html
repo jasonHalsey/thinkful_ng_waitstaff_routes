@@ -1,1 +1,24 @@
-<h1>new-meal.html</h1>
+<section class="main-container">
+      <section class="input-container" >
+        <article class="meal_details">
+         <h2>Enter The Meal Details</h2>
+         <form name="vm.myForm" novalidate >
+            <label>Base Meal Price: </label><input type="number" name="base_meal_price" placeholder="Enter Price ex.- (9.99)" ng-model="vm.myform.baseMealPrice" required />
+            <label>Tax Rate: </label><input type="number" name="tax_rate" placeholder="Enter Tax Rate" ng-model="vm.myform.taxRate" required />
+            <label>Tip Percentage: </label><input type="text" name="tip_percentage" placeholder="Enter Tip %" ng-model="vm.myform.tipPercentage" required />
+            <button class="button" ng-click="vm.submit()">Submit</button>
+            <button class="button" ng-click="vm.clear()">Clear</button>
+         </form>
+        </article>
+    </section>
+  
+  
+    <section class="output-container" >
+      <article class="customer_charges">
+        <h2>Customer Charges</h2>
+          <span>Subtotal: {{ vm.customerCharges.subtotal }} </span>
+          <span>Tip: {{ vm.customerCharges.tip }}</span>
+          <span>Total: {{ vm.customerCharges.total }}</span>
+      </article>
+     </section>
+</section>

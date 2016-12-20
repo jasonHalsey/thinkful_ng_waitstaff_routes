@@ -1,4 +1,5 @@
 angular.module('wsApp', ['ngRoute'])
+
     .config(['$routeProvider', function($routeProvider){
         $routeProvider.when('/', {
             templateUrl: './home.html',
@@ -15,22 +16,66 @@ angular.module('wsApp', ['ngRoute'])
             controller : 'EarnCtrl',
             controllerAs: 'vm'
         })
-        .when('/error', {
-              template : '<p>Error Page Not Found</p>'
-        })
-            .otherwise('/error');
+        .otherwise('/');
     }])
     .run(['$rootScope', '$location', function($rootScope, $location) {
         $rootScope.$on('$routeChangeError', function() {
-            $location.path('/error');
+            $location.path('/');
         });
     }])
-    .controller('HomeCtrl', [function() {
+    .controller('HomeCtrl', ['$rootscope', function() {
         //empty for now
     }])
-    .controller('MealCtrl', [function() {
-        //empty for now
+    .controller('MealCtrl', ['$rootScope', function($rootScope) {
+        var clearedForm = {
+          baseMealPrice: null,
+          tipPercentage: null,
+          taxRate: null
+        }
+        this.customerCharges = {
+            subtotal: 0,
+            tip: 0,
+            total: 0
+          }
+      
+      this.submit = function() {
+        // this.updateCustomerCharges()
+        this.customerCharges.subtotal = ((this.myform.taxRate / 100) * this.myform.baseMealPrice) + this.myform.baseMealPrice
+        this.customerCharges.tip = ((this.myform.tipPercentage / 100) * this.myform.baseMealPrice)
+        this.customerCharges.total = this.customerCharges.subtotal + this.customerCharges.tip
+        
+        // this.updateTotalEarnigs()
+        this.totalEarnings.totalTip = this.totalEarnings.totalTip + this.customerCharges.tip
+        this.totalEarnings.mealCount = this.totalEarnings.mealCount + 1 
+        this.totalEarnings.averageTipPerMeal = this.totalEarnings.totalTip / this.totalEarnings.mealCount
+
+        this.myform = {
+          baseMealPrice: null,
+          tipPercentage: null,
+          taxRate: null
+        }
+      }
+        this.clear = function clear(){
+            this.myform = clearedForm
+        }
       }])
-    .controller('EarnCtrl', [function() {
-        //empty for now
+    .controller('EarnCtrl', ['$rootScope', function($rootScope) {
+        this.testVal = $rootScope.value;
+        this.wipeClean = function wipeClean(){
+        this.myform = {
+          baseMealPrice: null,
+          tipPercentage: null,
+          taxRate: null
+        }
+        this.totalEarnings = {
+          totalTip: 0,
+          mealCount: 0,
+          averageTipPerMeal: 0
+        }
+        this.customerCharges = {
+          subtotal: 0,
+          tip: 0,
+          total: 0
+        }
+      }
       }])

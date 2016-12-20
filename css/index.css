@@ -32,7 +32,7 @@ button, input[type="button"], input[type="reset"], input[type="submit"] {
   white-space: nowrap;
 }
 button:hover, button:focus, input[type="button"]:hover, input[type="button"]:focus, input[type="reset"]:hover, input[type="reset"]:focus, input[type="submit"]:hover, input[type="submit"]:focus {
-  background-color: #11519a;
+  background-color: #105099;
   color: #fff;
 }
 button:disabled, input[type="button"]:disabled, input[type="reset"]:disabled, input[type="submit"]:disabled {
@@ -83,7 +83,7 @@ input[type="color"], input[type="date"], input[type="datetime"], input[type="dat
   width: 100%;
 }
 input[type="color"]:hover, input[type="date"]:hover, input[type="datetime"]:hover, input[type="datetime-local"]:hover, input[type="email"]:hover, input[type="month"]:hover, input[type="number"]:hover, input[type="password"]:hover, input[type="search"]:hover, input[type="tel"]:hover, input[type="text"]:hover, input[type="time"]:hover, input[type="url"]:hover, input[type="week"]:hover, input:not([type]):hover, textarea:hover {
-  border-color: #b1b1b1;
+  border-color: #b0b0b0;
 }
 input[type="color"]:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="email"]:focus, input[type="month"]:focus, input[type="number"]:focus, input[type="password"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="text"]:focus, input[type="time"]:focus, input[type="url"]:focus, input[type="week"]:focus, input:not([type]):focus, textarea:focus {
   border-color: #1565c0;
@@ -98,7 +98,7 @@ input[type="color"]:disabled:hover, input[type="date"]:disabled:hover, input[typ
   border: 1px solid #ddd;
 }
 input[type="color"]::placeholder, input[type="date"]::placeholder, input[type="datetime"]::placeholder, input[type="datetime-local"]::placeholder, input[type="email"]::placeholder, input[type="month"]::placeholder, input[type="number"]::placeholder, input[type="password"]::placeholder, input[type="search"]::placeholder, input[type="tel"]::placeholder, input[type="text"]::placeholder, input[type="time"]::placeholder, input[type="url"]::placeholder, input[type="week"]::placeholder, input:not([type])::placeholder, textarea::placeholder {
-  color: #858585;
+  color: #848484;
 }
 
 textarea {
@@ -174,7 +174,7 @@ table {
 }
 
 th {
-  border-bottom: 1px solid #a6a6a6;
+  border-bottom: 1px solid #a5a5a5;
   font-weight: 600;
   padding: 0.75em 0;
   text-align: left;
@@ -220,7 +220,7 @@ a {
   transition: color 150ms ease;
 }
 a:active, a:focus, a:hover {
-  color: #104c90;
+  color: #0f4b90;
 }
 
 hr {
