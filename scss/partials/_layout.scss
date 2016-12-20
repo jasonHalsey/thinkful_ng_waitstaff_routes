@@ -1,0 +1,48 @@
+header{
+  width:100%;
+  text-align: center;
+  h1{
+    font-size: 4.0em;
+    margin-top: 0.5em;
+  }
+}
+.main-container{
+  @include outer-container();
+}
+section.input-container,section.output-container{
+  @include span-columns(6);
+  border: 1px solid #000;
+  padding:1.0em;
+  h2{
+    width:100%;
+    border-bottom: 1px solid #000;
+    text-align: center;
+    padding-bottom: 0.45em;
+  }
+  button{
+    margin-top: 1.0em;
+  }
+}
+
+section.output-container{
+  span{
+    display: block;
+    line-height:2.2;
+  }
+}
+
+section.button-container{
+  @include outer-container();
+  @include clearfix;
+  button{
+    float:right;
+  }
+}
+
+footer{
+  width:100%;
+  text-align: center;
+  color:#fff;
+  background-color: #000000;
+  margin-top: 2.0em;
+}

@@ -1,0 +1,17 @@
+@import 'bourbon/bourbon';
+@import 'neat/neat';
+
+
+$header-font:'Oswald', sans-serif;
+$font-stack-system: $header-font;
+$body-font: 'Dosis', sans-serif;
+$dark-gray: #333 !default;
+$navigation-color: transparentize(white, 0.3);
+$secondaryColor: #b3c2bf;
+
+body {
+  margin:0; 
+}
+
+@import 'base/base';
+@import 'partials/layout';
