@@ -14,16 +14,16 @@ angular.module('waiterApp', ['ngRoute', 'ngAnimate'])
 })
 .run(function($rootScope, $location){
 
-  $rootScope.initAll = function(){
+  $rootScope.initApp = function(){
     $rootScope.earnings = {
       mealCount: 0,
       tipTotal: 0
     };
   };
-  $rootScope.initAll();
+  $rootScope.initApp();
 
   $rootScope.reset = function(){
-    $rootScope.initAll();
+    $rootScope.initApp();
     $location.path('/new-meal');
   };
 
