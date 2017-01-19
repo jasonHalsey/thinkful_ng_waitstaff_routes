@@ -1,15 +1,8 @@
-<section class="main-container">  
-    <section class="output-container" >
-      <article class="customer_charges">
-        <h2>My Earnings Info</h2>
-          <span>Test Value: {{vm.testVal}}</span>
-          <span>Total Tip: {{ vm.totalEarnings.totalTip }} </span>
-          <span>Total Meals Count: {{ vm.totalEarnings.mealCount }} </span>
-          <span>Average Tip per Meal: {{ vm.totalEarnings.averageTipPerMeal }} </span>
-      </article>
+<div class="earningsInfo borderDiv">
+  <h3>My Earnings Info</h3>
+  <div><label>Tip Total: </label><span>{{earnings.tipTotal | number:2}}</span></div>
+  <div><label>Meal Count: </label><span>{{earnings.mealCount | number:0}}</span></div>
+  <div><label>Avg Tip Per Meal: </label><span>{{earnings.avgTipPerMeal | number:2}}</span></div>
+</div>
 
-      <div>
-        <button class="button" ng-click="vm.wipeClean()">Total Clear</button>
-      </div>
-     </section>
-</section>
+<div class="reset"><button id="resetButton" ng-click="reset()">Reset All</button></div>

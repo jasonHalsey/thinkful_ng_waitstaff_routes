@@ -1,81 +1,120 @@
-angular.module('wsApp', ['ngRoute'])
+angular.module('waiterApp', ['ngRoute', 'ngAnimate'])
+.run(function($rootScope, $location, $timeout) {
+    $rootScope.$on('$routeChangeError', function() {
+        $location.path("/error");
+    });
+    $rootScope.$on('$routeChangeStart', function() {
+        $rootScope.isLoading = true;
+    });
+    $rootScope.$on('$routeChangeSuccess', function() {
+      $timeout(function() {
+        $rootScope.isLoading = false;
+      }, 250);
+    });
+})
+.run(function($rootScope, $location){
 
-    .config(['$routeProvider', function($routeProvider){
-        $routeProvider.when('/', {
-            templateUrl: './home.html',
-            controller : 'HomeCtrl',
-            controllerAs: 'vm'
-        })
-        .when('/new-meal', {
-            templateUrl: 'new-meal.html',
-            controller : 'MealCtrl',
-            controllerAs: 'vm'
-        })
-        .when('/my-earnings', {
-            templateUrl: 'my-earnings.html',
-            controller : 'EarnCtrl',
-            controllerAs: 'vm'
-        })
-        .otherwise('/');
-    }])
-    .run(['$rootScope', '$location', function($rootScope, $location) {
-        $rootScope.$on('$routeChangeError', function() {
-            $location.path('/');
-        });
-    }])
-    .controller('HomeCtrl', ['$rootscope', function() {
-        //empty for now
-    }])
-    .controller('MealCtrl', ['$rootScope', function($rootScope) {
-        var clearedForm = {
-          baseMealPrice: null,
-          tipPercentage: null,
-          taxRate: null
-        }
-        this.customerCharges = {
-            subtotal: 0,
-            tip: 0,
-            total: 0
-          }
-      
-      this.submit = function() {
-        // this.updateCustomerCharges()
-        this.customerCharges.subtotal = ((this.myform.taxRate / 100) * this.myform.baseMealPrice) + this.myform.baseMealPrice
-        this.customerCharges.tip = ((this.myform.tipPercentage / 100) * this.myform.baseMealPrice)
-        this.customerCharges.total = this.customerCharges.subtotal + this.customerCharges.tip
-        
-        // this.updateTotalEarnigs()
-        this.totalEarnings.totalTip = this.totalEarnings.totalTip + this.customerCharges.tip
-        this.totalEarnings.mealCount = this.totalEarnings.mealCount + 1 
-        this.totalEarnings.averageTipPerMeal = this.totalEarnings.totalTip / this.totalEarnings.mealCount
+  $rootScope.initAll = function(){
+    $rootScope.earnings = {
+      mealCount: 0,
+      tipTotal: 0
+    };
+  };
+  $rootScope.initAll();
 
-        this.myform = {
-          baseMealPrice: null,
-          tipPercentage: null,
-          taxRate: null
-        }
-      }
-        this.clear = function clear(){
-            this.myform = clearedForm
-        }
-      }])
-    .controller('EarnCtrl', ['$rootScope', function($rootScope) {
-        this.testVal = $rootScope.value;
-        this.wipeClean = function wipeClean(){
-        this.myform = {
-          baseMealPrice: null,
-          tipPercentage: null,
-          taxRate: null
-        }
-        this.totalEarnings = {
-          totalTip: 0,
-          mealCount: 0,
-          averageTipPerMeal: 0
-        }
-        this.customerCharges = {
-          subtotal: 0,
-          tip: 0,
-          total: 0
-        }
-      }
-      }])
+  $rootScope.reset = function(){
+    $rootScope.initAll();
+    $location.path('/new-meal');
+  };
+
+  $rootScope.$watchGroup(['earnings.tipTotal', 'earnings.mealCount'], function(newValues, oldValues, scope) {
+    if($rootScope.earnings.mealCount != 0){
+      $rootScope.earnings.avgTipPerMeal = $rootScope.earnings.tipTotal/$rootScope.earnings.mealCount;
+    }
+    else{
+      $rootScope.earnings.avgTipPerMeal = 0;
+    }
+  });
+
+
+})
+.config(function($routeProvider){
+
+$routeProvider
+  .when('/', {
+      templateUrl : './home.html',
+      controller: 'HomeCtrl'
+  })
+  .when('/new-meal', {
+      templateUrl : './new-meal.html',
+      controller : 'MealCtrl'
+  })
+  .when('/my-earnings', {
+      templateUrl : './my-earnings.html',
+      controller : 'EarningsCtrl'
+  })
+  .when('/error', {
+      template : '<p>Error Page: Not Found</p>'
+  })
+  .otherwise({
+    redirectTo : '/error'
+  });
+
+})
+.service('sharedProperties', function(){
+
+})
+.controller('MealCtrl', function($scope, $rootScope){
+  $rootScope.navigationValue = 'meal'
+
+  $scope.resetDetails = function(){
+    $scope.data.mealPrice = '';
+    $scope.data.taxRate = '';
+    $scope.data.tipPercentage = '';
+  };
+
+  $scope.initCharges = function(){
+    $scope.data.subtotal = 0;
+    $scope.data.tip = 0;
+    $scope.data.total = 0;
+  };
+
+  $scope.init = function(){
+    $scope.data = {};
+    $scope.data.formError = "";
+    $scope.resetDetails();
+    $scope.initCharges();
+  };
+
+  $scope.init();
+
+  $scope.submitDetails = function(){
+    if($scope.enterPriceForm.$invalid){
+      $scope.data.formError = "Please enter valid values ";
+    }
+    else{
+      $scope.data.formError = "";
+      $rootScope.earnings.mealCount++;
+      $rootScope.earnings.tipTotal += $scope.data.tip;
+    }
+  };
+
+  $scope.$watchGroup(['data.mealPrice', 'data.taxRate', 'data.tipPercentage'], function(newValues, oldValues, scope) {
+    if($scope.enterPriceForm.$invalid){
+      $scope.initCharges();
+    }
+    else{
+      $scope.data.formError = "";
+      $scope.data.subtotal = $scope.data.mealPrice * (1 + $scope.data.taxRate/100);
+      $scope.data.tip = $scope.data.mealPrice * ($scope.data.tipPercentage/100);
+      $scope.data.total = $scope.data.subtotal + $scope.data.tip;
+    }
+  });
+
+})
+.controller('HomeCtrl', function($scope, $rootScope){
+  $rootScope.navigationValue = 'home'
+})
+.controller('EarningsCtrl', function($scope, $rootScope){
+  $rootScope.navigationValue = 'earnings'
+})
